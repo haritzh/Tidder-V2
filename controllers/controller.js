@@ -5,23 +5,28 @@ const nodemailer = require('nodemailer');
 class Controller {
     static async home(req, res) {
         try {
-            res.redirect('/home');
+            if (!req.session.userId) {
+            res.render('tidder');
+            } else {
+            res.redirect('home');
+            }
         } catch (error) {
             console.log(error);
             res.send(error);
         }
     }
 
-    static async getHome(req, res) {
+
+   static async getHome(req, res) {
         try {
-        const posts = await Post.findAll({
+            const posts = await Post.findAll({
             include: [{ model: User, as: 'User' }],
             order: [['createdAt', 'DESC']]
-        });
-        res.render('home', { posts });
+            });
+            res.render('users/home', { posts, session: req.session });
         } catch (error) {
-        console.log(error);
-        res.send(error);
+            console.log(error);
+            res.send(error);
         }
     }
 
@@ -77,12 +82,14 @@ class Controller {
             const { email, password } = req.body;
             const user = await User.findOne({ where: { email } });
 
-            if (user && await bcrypt.compare(password, user.password)) {
-                req.session.userId = user.id;
-                res.redirect('/home');
-            } else {
-                res.send('Invalid email or password');
+            if (!user || !bcrypt.compareSync(password, user.password)) {
+            return res.render('users/login', { error: 'Invalid email or password' });
             }
+
+            req.session.userId = user.id;
+            req.session.username = user.username;
+
+            res.redirect('/home');
         } catch (error) {
             console.log(error);
             res.send(error);

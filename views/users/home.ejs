@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tidder - Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --reddit-orange: #ff4500;
+      --background: #f6f7f8;
+      --text: #1c1c1c;
+      --button-hover: #d93a00;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Noto Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .post {
+      background-color: white;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .post h3 {
+      margin-bottom: 0.5rem;
+      color: var(--reddit-orange);
+    }
+
+    .post p {
+      margin-bottom: 0.5rem;
+    }
+
+    .post small {
+      color: #555;
+    }
+
+    footer {
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <%- include('../partials/_navbar') %>
+
+  <main>
+    <h2>Latest Posts</h2>
+
+    <% if (posts.length === 0) { %>
+      <p>No posts yet. Be the first to post!</p>
+    <% } else { %>
+      <% posts.forEach(post => { %>
+        <div class="post">
+          <h3><%= post.title %></h3>
+          <p><%= post.content %></p>
+          <small>Posted by <strong><%= post.User?.username || 'Unknown' %></strong> on <%= post.createdAt.toDateString() %></small>
+        </div>
+      <% }) %>
+    <% } %>
+  </main>
+
+  <footer>
+    <p>2025 • Tidder By Dhea & Haritz</p>
+  </footer>
+
+</body>
+</html>

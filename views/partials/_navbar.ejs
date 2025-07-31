@@ -1,0 +1,49 @@
+<style>
+  header {
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 2rem;
+    color: var(--reddit-orange);
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-links a {
+    margin-left: 1.5rem;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: bold;
+  }
+
+  .nav-links a:hover {
+    color: var(--reddit-orange);
+  }
+</style>
+
+<header>
+  <a class="logo" href="/home">Tidder</a>
+
+  <% if (session && session.userId) { %>
+    <div class="nav-links">
+      <a href="/profiles/<%= session.userId %>">Hi, <%= session.username %></a>
+      <a href="/users/logout" style="color: red;">Logout</a>
+    </div>
+  <% } else { %>
+    <div class="nav-links">
+      <a href="/users/login">Login</a>
+      <a href="/users/register">Register</a>
+    </div>
+  <% } %>
+</header>
