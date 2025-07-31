@@ -9,6 +9,7 @@ const interactionsRouter = require('./interactions')
 
 router.get('/', Controller.home)
 router.get('/home', Controller.getHome)
+router.get('/logout', Controller.logOut)
 
 router.use('/users', userRouter)
 router.use('/profiles', profilesRouter)

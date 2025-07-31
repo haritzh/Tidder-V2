@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     static associate(models) {
       Post.belongsTo(models.User, {
-        foreignKey: 'userId'
+        foreignKey: 'userId',
+        as: 'postsUser'
       });
       Post.belongsToMany(models.Interaction, {
         through: models.PostInteraction,

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --reddit-orange: #ff4500;
+      --background: #f6f7f8;
+      --text: #1c1c1c;
+      --button-hover: #d93a00;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Noto Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: white;
+      border-bottom: 1px solid #ddd;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 2rem;
+      color: var(--reddit-orange);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a,
+    .nav-links span {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: bold;
+    }
+
+    .nav-links a:hover {
+      color: var(--reddit-orange);
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      width: 80%;
+      max-width: 1000px;
+      margin: 2rem auto;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: var(--reddit-orange);
+      margin-bottom: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 300px;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      padding: 0.6rem 1.2rem;
+      background-color: var(--reddit-orange);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: var(--button-hover);
+    }
+
+    .profile-photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ddd;
+    }
+
+    footer {
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+  </style>
+
+  <script>
+    function updatePreview() {
+      const url = document.getElementById('photoProfile').value;
+      document.getElementById('previewImage').src = url || '/images/default-profile.png';
+    }
+  </script>
+</head>
+<body>
+
+  <%- include('../partials/_navbar', { session: session }) %>
+
+  <main>
+    <h2>Edit Your Profile</h2>
+
+    <form action="/profiles/edit/<%= profileId %>" method="POST">
+      <div>
+        <img
+          id="previewImage"
+          src="<%= photoProfile || '/images/default-profile.png' %>"
+          alt="Profile Photo Preview"
+          class="profile-photo"
+        >
+      </div>
+
+      <div>
+        <label for="photoProfile">Photo Profile URL:</label>
+        <input
+          type="text"
+          id="photoProfile"
+          name="photoProfile"
+          placeholder="https://example.com/image.jpg"
+          value="<%= photoProfile || '' %>"
+          oninput="updatePreview()"
+        >
+      </div>
+
+      <div>
+        <label for="bio">Bio:</label>
+        <textarea
+          id="bio"
+          name="bio"
+          placeholder="Tell us about yourself..."
+        ><%= bio || '' %></textarea>
+      </div>
+
+      <button type="submit">Update Profile</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>2025 • Tidder By Dhea & Haritz</p>
+  </footer>
+
+</body>
+</html>

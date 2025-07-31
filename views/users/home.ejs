@@ -6,7 +6,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --reddit-orange: #ff4500;
@@ -58,6 +57,30 @@
       color: #555;
     }
 
+    .vote-buttons {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .vote-buttons form {
+      display: inline;
+    }
+
+    .vote-buttons button {
+      background-color: transparent;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .vote-count {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
     footer {
       background-color: #fff;
       border-top: 1px solid #ddd;
@@ -69,7 +92,7 @@
 </head>
 <body>
 
-  <%- include('../partials/_navbar') %>
+  <%- include('../partials/_navbar', { session: session }) %>
 
   <main>
     <h2>Latest Posts</h2>
@@ -82,6 +105,18 @@
           <h3><%= post.title %></h3>
           <p><%= post.content %></p>
           <small>Posted by <strong><%= post.User?.username || 'Unknown' %></strong> on <%= post.createdAt.toDateString() %></small>
+
+          <div class="vote-buttons">
+            <form action="/interactions/upvote/<%= post.id %>" method="POST">
+              <button type="submit">⬆️</button>
+            </form>
+
+            <div class="vote-count"><%= post.totalVotes || 0 %></div>
+
+            <form action="/interactions/downvote/<%= post.id %>" method="POST">
+              <button type="submit">⬇️</button>
+            </form>
+          </div>
         </div>
       <% }) %>
     <% } %>

@@ -32,18 +32,21 @@
   }
 </style>
 
-<header>
-  <a class="logo" href="/home">Tidder</a>
+<nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; border-bottom: 1px solid #ddd;">
+  <div>
+    <a href="/home" style="text-decoration: none; color: var(--reddit-orange); font-size: 1.5rem; font-weight: bold;">Tidder</a>
+  </div>
+  <div>
+    <% if (session && session.username) { %>
+      <span style="margin-right: 1rem;">Welcome, <%= session.username %>!</span>
+      <a href="/posts/create" style="margin-right: 1rem;">Create Post</a>
+      <a href="/profiles/<%= session.userId %>">My Profile</a>
+      <a href="/logout" style="margin-left: 1rem; color: var(--reddit-orange); font-weight: bold;">Logout</a>
+    <% } else { %>
+      <a href="/login" style="margin-right: 1rem;">Login</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </div>
+</nav>
 
-  <% if (session && session.userId) { %>
-    <div class="nav-links">
-      <a href="/profiles/<%= session.userId %>">Hi, <%= session.username %></a>
-      <a href="/users/logout" style="color: red;">Logout</a>
-    </div>
-  <% } else { %>
-    <div class="nav-links">
-      <a href="/users/login">Login</a>
-      <a href="/users/register">Register</a>
-    </div>
-  <% } %>
 </header>
