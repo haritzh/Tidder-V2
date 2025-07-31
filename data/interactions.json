@@ -1,0 +1,17 @@
+[
+  {
+    "type": "comment",
+    "content": "Nice post!",
+    "userId": 2
+  },
+  {
+    "type": "upvote",
+    "content": null,
+    "userId": 2
+  },
+  {
+    "type": "downvote",
+    "content": null,
+    "userId": 1
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "title": "First Post",
+    "content": "This is my first post on Tidder!",
+    "imageUrl": "https://example.com/images/post1.jpg",
+    "userId": 1
+  },
+  {
+    "title": "Looking for React resources",
+    "content": "Anyone have a good guide for React?",
+    "imageUrl": "https://example.com/images/react.jpg",
+    "userId": 2
+  }
+]
