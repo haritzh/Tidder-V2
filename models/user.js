@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       const validPassword = bcrypt.compareSync(password, user.password);
       return validPassword ? user : null;
     }
+
+    get formattedCreatedAt() {
+      return formatDate(this.createdAt);
+    }
   }
 
   User.init({

@@ -19,11 +19,20 @@ class Controller {
 
     static async getHome(req, res) {
         try {
+            const search = req.query.search || '';
+            const { Op } = require('sequelize');
+
             const posts = await Post.findAll({
+                where: {
+                    title: {
+                        [Op.iLike]: `%${search}%`
+                    }
+                },
                 include: [{ model: User, as: 'postsUser' }],
                 order: [['createdAt', 'DESC']]
             });
-            res.render('users/home', { posts, session: req.session });
+
+            res.render('users/home', { posts, session: req.session, search });
         } catch (error) {
             console.log(error);
             res.send(error);
