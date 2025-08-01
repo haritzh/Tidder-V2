@@ -41,35 +41,41 @@ class Controller {
     }
 
     static async postRegister(req, res) {
-        try {
-            const { username, email, password } = req.body;
-            const hashedPassword = await bcrypt.hash(password, 10);
-            await User.create({ username, email, password: hashedPassword });
+    try {
+        const { username, email, password } = req.body
+        await User.create({ username, email, password })
 
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'your_email@gmail.com',
-                    pass: 'your_app_password'
-                }
-            });
-
-            await transporter.sendMail({
-                from: 'your_email@gmail.com',
-                to: email,
-                subject: 'Welcome!',
-                text: `Welcome to Tidder, ${username}!`
-            });
-
-            res.redirect('/login');
-        } catch (error) {
-            let errMsg = 'Something went wrong';
-            if (error.name === 'SequelizeUniqueConstraintError') {
-                errMsg = 'Email already used';
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'your_email@gmail.com',
+                pass: 'your_app_password'
             }
-            res.render('users/register', { error: errMsg });
+        });
+
+        await transporter.sendMail({
+            from: 'your_email@gmail.com',
+            to: email,
+            subject: 'Welcome!',
+            text: `Welcome to Tidder, ${username}!`
+        });
+
+        res.redirect('/login');
+    } catch (error) {
+        console.log(error);
+
+        let errMsg = 'Something went wrong'
+        
+        if (error.name === 'SequelizeValidationError') {
+            errMsg = error.errors.map(e => e.message).join(', ')
+        } else if (error.name === 'SequelizeUniqueConstraintError') {
+            errMsg = 'Email already used'
         }
+
+        res.render('users/register', { error: errMsg });
     }
+}
+
 
     static async getLogIn(req, res) {
         try {
@@ -83,9 +89,9 @@ class Controller {
     static async postLogIn(req, res) {
         try {
             const { email, password } = req.body;
-            const user = await User.findOne({ where: { email } });
+            const user = await User.authenticate(email, password);
 
-            if (!user || !bcrypt.compareSync(password, user.password)) {
+            if (!user) {
                 return res.render('users/login', { error: 'Invalid email or password' });
             }
 
@@ -239,7 +245,8 @@ class Controller {
 
     static async deletePost(req, res) {
         try {
-            await Post.destroy({ where: { id: req.params.id } });
+            const postId = req.params.id
+            await Post.destroy({ where: { id: postId } });
             res.redirect('/home');
         } catch (error) {
             console.log(error);
