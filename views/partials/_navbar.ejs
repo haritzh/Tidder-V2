@@ -1,0 +1,52 @@
+<style>
+  header {
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 2rem;
+    color: var(--reddit-orange);
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-links a {
+    margin-left: 1.5rem;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: bold;
+  }
+
+  .nav-links a:hover {
+    color: var(--reddit-orange);
+  }
+</style>
+
+<nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; border-bottom: 1px solid #ddd;">
+  <div>
+    <a href="/home" style="text-decoration: none; color: var(--reddit-orange); font-size: 1.5rem; font-weight: bold;">Tidder</a>
+  </div>
+  <div>
+    <% if (session && session.username) { %>
+      <span style="margin-right: 1rem;">Welcome, <%= session.username %>!</span>
+      <a href="/posts/create" style="margin-right: 1rem;">Create Post</a>
+      <a href="/profiles/<%= session.userId %>">My Profile</a>
+      <a href="/logout" style="margin-left: 1rem; color: var(--reddit-orange); font-weight: bold;">Logout</a>
+    <% } else { %>
+      <a href="/login" style="margin-right: 1rem;">Login</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </div>
+</nav>
+
+</header>

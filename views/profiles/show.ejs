@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tidder - Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --reddit-orange: #ff4500;
+      --background: #f6f7f8;
+      --text: #1c1c1c;
+      --button-hover: #d93a00;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Noto Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: white;
+      border-bottom: 1px solid #ddd;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 2rem;
+      color: var(--reddit-orange);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a,
+    .nav-links span {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: bold;
+    }
+
+    .nav-links a:hover {
+      color: var(--reddit-orange);
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      width: 80%;
+      max-width: 1000px;
+      margin: 2rem auto;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: var(--reddit-orange);
+      margin-bottom: 1rem;
+    }
+
+    .bio {
+      max-width: 600px;
+      margin: 1rem auto 2rem;
+      font-style: italic;
+      color: #555;
+    }
+
+    .auth-buttons a {
+      display: inline-block;
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+
+    .edit-btn {
+      background-color: var(--reddit-orange);
+    }
+
+    .delete-btn {
+      background-color: #999;
+    }
+
+    .create-btn {
+      background-color: var(--reddit-orange);
+    }
+
+    .auth-buttons a:hover,
+    .create-btn:hover {
+      opacity: 0.9;
+    }
+
+    .no-profile {
+      margin-top: 2rem;
+    }
+
+    .profile-photo {
+      width: 140px;
+      height: 140px;
+      margin: 1.5rem auto;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ddd;
+    }
+
+    footer {
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <%- include('../partials/_navbar', { session: session }) %>
+
+  <main>
+    <h2>Profile: <%= user.username %></h2>
+    <p><strong>Email:</strong> <%= user.email %></p>
+
+    <% if (profile) { %>
+      <img
+        src="<%= profile.photoProfile || '/images/default-profile.png' %>"
+        alt="Profile Photo"
+        class="profile-photo"
+      >
+
+      <p><strong>Bio:</strong></p>
+      <p class="bio"><%= profile.bio %></p>
+
+      <div class="auth-buttons">
+        <a href="/profiles/edit/<%= profile.id %>" class="edit-btn">Edit Profile</a>
+      </div>
+    <% } else { %>
+      <div class="no-profile">
+        <p>No profile info yet.</p>
+        <a href="/profiles/create" class="create-btn">Create Profile</a>
+      </div>
+    <% } %>
+  </main>
+
+  <footer>
+    <p>2025 • Tidder By Dhea & Haritz</p>
+  </footer>
+
+</body>
+</html>

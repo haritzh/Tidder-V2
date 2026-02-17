@@ -1,0 +1,12 @@
+[
+  {
+    "bio": "Hello, I’m John!",
+    "photoProfile": "https://example.com/images/john.jpg",
+    "userId": 1
+  },
+  {
+    "bio": "Frontend developer and coffee lover.",
+    "photoProfile": "https://example.com/images/jane.jpg",
+    "userId": 2
+  }
+]
